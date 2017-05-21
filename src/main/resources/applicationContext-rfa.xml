@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="robustFoundationAPI" class="com.metrics.reuters.RobustFoundationAPI" scope="singleton" destroy-method="cleanup">
+		<constructor-arg name="sessionName" value="myNS::RSSLSession" />
+		<constructor-arg name="serviceName" value="IDN_RDF" />
+		<constructor-arg name="userName" value="metricsTest" />
+		<constructor-arg name="fieldDictionaryFilename" value="classpath:RDMFieldDictionary" />
+		<constructor-arg name="enumDictionaryFilename" value="classpath:enumtype.def" />
+		<constructor-arg name="feedConfigFilename" value="classpath:FeedConfig.xml" />
+	</bean>
+
+	<bean id="genericOMMParser" class="com.metrics.reuters.GenericOMMParser">
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+
+	<bean id="rfaDispatchListener" class="com.metrics.reuters.listener.RFADispatchListener">
+		<property name="robustFoundationAPI" ref="robustFoundationAPI" />
+		<property name="timeToDispatch" value="1000" />
+	</bean>
+
+	<bean id="itemManager" class="com.metrics.reuters.client.ItemManager">
+		<property name="robustFoundationAPI" ref="robustFoundationAPI" />
+		<property name="parser" ref="genericOMMParser" />
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehcache" />
+	</bean> 
+
+	<!-- Ehcache library setup -->
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml"/>
+	</bean>
+		
+</beans>       
