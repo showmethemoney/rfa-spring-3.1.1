@@ -30,6 +30,7 @@ import com.reuters.rfa.omm.OMMTypes;
 import com.reuters.rfa.omm.OMMVector;
 import com.reuters.rfa.omm.OMMVectorEntry;
 
+
 public class GenericOMMParser
 {
 	protected static final Logger logger = LoggerFactory.getLogger( GenericOMMParser.class );
@@ -39,8 +40,7 @@ public class GenericOMMParser
 	private Collection<String> fields = null;
 	private CacheManager cacheManager = null;
 
-	public GenericOMMParser() {
-	}
+	public GenericOMMParser() {}
 
 	public static void initializeDictionary(String fieldDictionaryFilename, String enumDictionaryFilename) throws DictionaryException {
 		FieldDictionary dictionary = FieldDictionary.create();
@@ -51,8 +51,7 @@ public class GenericOMMParser
 
 			initializeDictionary( dictionary );
 		} catch (DictionaryException e) {
-			throw new DictionaryException( "ERROR: Check if files " + fieldDictionaryFilename + " and " + enumDictionaryFilename + " exist and are readable.",
-			        e );
+			throw new DictionaryException( "ERROR: Check if files " + fieldDictionaryFilename + " and " + enumDictionaryFilename + " exist and are readable.", e );
 		}
 	}
 
@@ -169,6 +168,7 @@ public class GenericOMMParser
 					FidDef fiddef = CURRENT_DICTIONARY.getFidDef( fe.getFieldId() );
 					if (fiddef != null) {
 						OMMData data = null;
+						
 						if (fe.getDataType() == OMMTypes.UNKNOWN) {
 							data = fe.getData( fiddef.getOMMType() );
 						} else {
@@ -176,8 +176,9 @@ public class GenericOMMParser
 							data = fe.getData();
 						}
 
-						if (data.getType() == OMMTypes.ENUM) {
-						} else {
+//						if (data.getType() == OMMTypes.ENUM) {
+//						} else {
+						if (data.getType() != OMMTypes.ENUM) {
 							parseData( data );
 						}
 
@@ -204,12 +205,16 @@ public class GenericOMMParser
 							if (fields.contains( fiddef.getName() )) {
 								logger.debug( "Identifier : {}, field : {} = {}", new Object[] { itemName, fiddef.getName(), data.toString() } );
 
+								// comare the value in cache, if the current's value greater than cache's, replace it
 								Cache cache = cacheManager.getCache( "indexes" );
-								cache.put( itemName + fiddef.getName(), data.toString() );
+								String key = itemName + fiddef.getName();
+								
+								if (Double.parseDouble( data.toString() ) > Double.parseDouble( (String) cache.get( key ).get() )) {
+									cache.put( key, data.toString() );
+								}
 							}
 						}
-					} else {
-					}
+					} 
 				} else {
 					// dumpFieldEntryHeader(fe, null);
 					if (fe.getDataType() == OMMTypes.UNKNOWN) {

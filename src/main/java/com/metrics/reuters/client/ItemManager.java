@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
@@ -27,25 +26,27 @@ import com.reuters.rfa.session.omm.OMMItemIntSpec;
 
 import net.sf.ehcache.Ehcache;
 
+/**
+ *  1. use sendRequest(Collection<String> identifiers, Collection<String> fields)
+ *  or
+ *  2. use sendRequest(List<ItemIntSpec<String, List<String>> itemIntSpecs)
+ */
+
 public class ItemManager
 {
 	protected static final Logger logger = LoggerFactory.getLogger( ItemManager.class );
-	@Autowired
 	private RobustFoundationAPI instance = null;
-	@Autowired
 	private GenericOMMParser parser = null;
-	@Autowired
 	private CacheManager cacheManager = null;
 
-	public ItemManager() {
-	}
+	public ItemManager() {}
 
 	public ItemManager(RobustFoundationAPI instance) {
 		this.instance = instance;
 	}
 
 	/**
-	 * send request 
+	 * send request
 	 */
 	public void sendRequest(Collection<String> identifiers, Collection<String> fields) {
 		logger.info( "SendRequest: Sending item requests" );
@@ -56,7 +57,7 @@ public class ItemManager
 	}
 
 	/**
-	 * use ItemIntSpec object 
+	 * use ItemIntSpec object
 	 * 
 	 * send request
 	 */
@@ -115,7 +116,7 @@ public class ItemManager
 		Cache cache = cacheManager.getCache( RobustFoundationAPI.NAMED_HANDLE_CACHE );
 		String itemName = null;
 		Iterator<String> iterator = identifiers.iterator();
-		
+
 		// register for each item
 		while (iterator.hasNext()) {
 			itemName = iterator.next();
@@ -134,7 +135,7 @@ public class ItemManager
 			if (null != instance.getLoginClient().getHandler()) {
 				ommmsg.setAssociatedMetaInfo( instance.getLoginClient().getHandler() );
 			}
-			
+
 			logger.info( "Subscribing Identifier: " + itemName );
 
 			ommmsg.setAttribInfo( serviceName, itemName, RDMInstrument.NameType.RIC );
@@ -149,7 +150,7 @@ public class ItemManager
 			cache.put( itemHandle, itemName );
 
 			// itemHandles.add( itemHandle );
-			
+
 			pool.releaseMsg( ommmsg );
 		}
 	}
@@ -200,5 +201,5 @@ public class ItemManager
 
 		pool.releaseMsg( ommmsg );
 	}
- 
+
 }

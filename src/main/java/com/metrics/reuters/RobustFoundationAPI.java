@@ -4,14 +4,11 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.util.prefs.Preferences;
 
-import javax.annotation.PreDestroy;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.metrics.reuters.client.ItemManager;
 import com.metrics.reuters.client.LoginClient;
-import com.metrics.reuters.event.LoginEvent;
 import com.reuters.rfa.common.Context;
 import com.reuters.rfa.common.EventQueue;
 import com.reuters.rfa.common.EventSource;
