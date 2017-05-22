@@ -209,8 +209,14 @@ public class GenericOMMParser
 								Cache cache = cacheManager.getCache( "indexes" );
 								String key = itemName + fiddef.getName();
 								
-								if (Double.parseDouble( data.toString() ) > Double.parseDouble( (String) cache.get( key ).get() )) {
+								// if the key does not exist in the cache
+								if (null == cache.get( key )) {
 									cache.put( key, data.toString() );
+								} else {
+									if (Double.parseDouble( data.toString() ) > Double.parseDouble( (String) cache.get( key ).get() )) {
+										logger.debug( "{} > {} => {}", Double.parseDouble( data.toString() ), Double.parseDouble( (String) cache.get( key ).get() ), Double.parseDouble( data.toString() ) > Double.parseDouble( (String) cache.get( key ).get() ) );
+										cache.put( key, data.toString() );
+									}
 								}
 							}
 						}
