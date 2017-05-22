@@ -202,4 +202,28 @@ public class ItemManager
 		pool.releaseMsg( ommmsg );
 	}
 
+	public RobustFoundationAPI getInstance() {
+		return instance;
+	}
+
+	public void setInstance(RobustFoundationAPI instance) {
+		this.instance = instance;
+	}
+
+	public GenericOMMParser getParser() {
+		return parser;
+	}
+
+	public void setParser(GenericOMMParser parser) {
+		this.parser = parser;
+	}
+
+	public CacheManager getCacheManager() {
+		return cacheManager;
+	}
+
+	public void setCacheManager(CacheManager cacheManager) {
+		this.cacheManager = cacheManager;
+	}
+	
 }

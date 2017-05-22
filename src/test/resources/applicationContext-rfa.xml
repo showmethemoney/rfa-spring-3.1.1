@@ -7,9 +7,9 @@
 		<constructor-arg name="sessionName" value="myNS::RSSLSession" />
 		<constructor-arg name="serviceName" value="IDN_RDF" />
 		<constructor-arg name="userName" value="MikeTest" />
-		<constructor-arg name="fieldDictionaryFilename" value="classpath:RDMFieldDictionary" />
-		<constructor-arg name="enumDictionaryFilename" value="classpath:enumtype.def" />
-		<constructor-arg name="feedConfigFilename" value="classpath:FeedConfig.xml" />
+		<constructor-arg name="fieldDictionaryFilename" value="C:\Users\ethan\workspace\rfa-spring-3.1.1\src\test\resources\RDMFieldDictionary" />
+		<constructor-arg name="enumDictionaryFilename" value="C:\Users\ethan\workspace\rfa-spring-3.1.1\src\test\resources\enumtype.def" />
+		<constructor-arg name="feedConfigFilename" value="C:\Users\ethan\workspace\rfa-spring-3.1.1\src\test\resources\FeedConfig.xml" />
 	</bean>
 
 	<bean id="genericOMMParser" class="com.metrics.reuters.GenericOMMParser">
@@ -22,7 +22,7 @@
 	</bean>
 
 	<bean id="itemManager" class="com.metrics.reuters.client.ItemManager">
-		<property name="robustFoundationAPI" ref="robustFoundationAPI" />
+		<property name="instance" ref="robustFoundationAPI" />
 		<property name="parser" ref="genericOMMParser" />
 		<property name="cacheManager" ref="cacheManager" />
 	</bean>

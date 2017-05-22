@@ -23,7 +23,7 @@ public class RFADispatchThread extends Thread
 	public void run() {
 		while (true) {
 			try {
-				eventQueue.dispatch( timeToDispatch );
+				eventQueue.dispatch( timeToDispatch ); 
 			} catch (Throwable cause) {
 				logger.error( cause.getMessage(), cause );
 
