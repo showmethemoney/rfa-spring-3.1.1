@@ -46,7 +46,7 @@ public class GenericOMMParser
 		FieldDictionary dictionary = FieldDictionary.create();
 		try {
 			FieldDictionary.readRDMFieldDictionary( dictionary, fieldDictionaryFilename );
-
+			
 			FieldDictionary.readEnumTypeDef( dictionary, enumDictionaryFilename );
 
 			initializeDictionary( dictionary );
@@ -206,7 +206,7 @@ public class GenericOMMParser
 								logger.debug( "Identifier : {}, field : {} = {}", new Object[] { itemName, fiddef.getName(), data.toString() } );
 
 								// comare the value in cache, if the current's value greater than cache's, replace it
-								Cache cache = cacheManager.getCache( "indexes" );
+								Cache cache = cacheManager.getCache( RobustFoundationAPI.NAMED_INDEX_CACHE );
 								String key = itemName + fiddef.getName();
 								
 								// if the key does not exist in the cache
