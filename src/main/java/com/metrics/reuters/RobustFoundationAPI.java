@@ -24,6 +24,7 @@ public class RobustFoundationAPI
 	public static final String NAMED_EVENT_QUEUE = "defaultQueue";
 	public static final String NAMED_OMM_CONSUMER = "defaultConsumer";	
 	public static final String NAMED_HANDLE_CACHE = "handles";
+	public static final String NAMED_INDEX_CACHE = "indexes";
 	
 	private EventQueue eventQueue = null;
 	private Session session = null;
